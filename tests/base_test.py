@@ -16,17 +16,20 @@ from selenium.webdriver.firefox.service import Service as ServiceFirefox
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.firefox import GeckoDriverManager
 
-os.environ['WDM_LOG_LEVEL'] = '0'
+os.environ['WDM_LOG_LEVEL'] = '0'  # Hide WebDriver manager startup logs.
 
 
 def config():
     path = Path(__file__).parent / "../data/config.yaml"
-    try:
-        with open(path) as config_file:
-            data = yaml.load(config_file, Loader=yaml.FullLoader)
-        return data
-    finally:
-        config_file.close()
+    if os.path.exists(path):
+        try:
+            with open(path) as config_file:
+                data = yaml.load(config_file, Loader=yaml.CLoader)
+            return data
+        finally:
+            config_file.close()
+    else:
+        raise Exception(f"Failed to open config file path: {path}")
 
 
 class BaseTest:

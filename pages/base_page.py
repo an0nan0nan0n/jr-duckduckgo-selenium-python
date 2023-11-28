@@ -1,3 +1,8 @@
+"""
+BasePage that all other page class objects inherit from.
+"""
+
+
 class BasePage:
 
     def __init__(self, driver, wait):

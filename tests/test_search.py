@@ -1,7 +1,9 @@
 """
 Tests for DuckDuckGo search page.
 """
+
 import pytest
+
 from pages.search_page import SearchPage
 from tests.base_test import BaseTest
 
