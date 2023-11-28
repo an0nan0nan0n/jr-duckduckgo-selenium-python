@@ -21,20 +21,19 @@ os.environ['WDM_LOG_LEVEL'] = '0'  # Hide WebDriver manager startup logs.
 
 def config():
     path = Path(__file__).parent / "../data/config.yaml"
-    if os.path.exists(path):
-        try:
-            with open(path) as config_file:
-                data = yaml.load(config_file, Loader=yaml.CLoader)
-            return data
-        finally:
-            config_file.close()
-    else:
+    if not os.path.exists(path):
         raise Exception(f"Failed to open config file path: {path}")
+    try:
+        with open(path) as config_file:
+            data = yaml.load(config_file, Loader=yaml.CLoader)
+        return data
+    finally:
+        config_file.close()
 
 
 class BaseTest:
 
-    @pytest.fixture(autouse=True)
+    @pytest.fixture(autouse=True)  # When this repo expands more fixtures like this will need to be in a separate file.
     def init_driver(self):
         warnings.simplefilter("ignore", ResourceWarning)
         if config()['browser'] == 'chrome':
