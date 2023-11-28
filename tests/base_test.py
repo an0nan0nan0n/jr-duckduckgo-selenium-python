@@ -3,7 +3,6 @@ Default BaseTest object for setting up pytest fixtures for current browser confi
 """
 
 import os
-import warnings
 from pathlib import Path
 
 import pytest
@@ -35,7 +34,6 @@ class BaseTest:
 
     @pytest.fixture(autouse=True)  # When this repo expands more fixtures like this will need to be in a separate file.
     def init_driver(self) -> None:
-        warnings.simplefilter("ignore", ResourceWarning)
         if config()['browser'] == 'chrome':
             options = webdriver.ChromeOptions()
             if config()['headless']:
