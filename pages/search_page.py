@@ -2,6 +2,8 @@
 Contains objects for interacting with the DuckDuckGo search page.
 """
 
+import selenium.webdriver
+from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from pages.base_page import BasePage
 from data.locators import SearchPageLocators
@@ -9,18 +11,18 @@ from data.locators import SearchPageLocators
 
 class SearchPage(BasePage):
 
-    def __init__(self, driver, wait):
+    def __init__(self, driver: selenium.webdriver, wait: WebDriverWait) -> None:
         self.url = "https://duckduckgo.com/"
         self.locator = SearchPageLocators
         super().__init__(driver, wait)
 
-    def go_to_search_page(self):
+    def go_to_search_page(self) -> None:
         self.driver_get_url(self.url)
 
-    def check_title(self, title):
+    def check_title(self, title: str) -> None:
         self.wait.until(EC.title_contains(title))
 
-    def make_a_search(self, input_text):
+    def make_a_search(self, input_text: str) -> None:
         self.driver.find_element(*self.locator.SEARCH_INPUT).send_keys(input_text)
         self.driver.find_element(*self.locator.SEARCH_BUTTON).click()
         self.wait.until(EC.presence_of_element_located(self.locator.RESULTS))

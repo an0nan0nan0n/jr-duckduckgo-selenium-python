@@ -19,7 +19,7 @@ from webdriver_manager.firefox import GeckoDriverManager
 os.environ['WDM_LOG_LEVEL'] = '0'  # Hide WebDriver manager startup logs.
 
 
-def config():
+def config() -> yaml or Exception:
     path = Path(__file__).parent / "../data/config.yaml"
     if not os.path.exists(path):
         raise Exception(f"Failed to open config file path: {path}")
@@ -34,7 +34,7 @@ def config():
 class BaseTest:
 
     @pytest.fixture(autouse=True)  # When this repo expands more fixtures like this will need to be in a separate file.
-    def init_driver(self):
+    def init_driver(self) -> None:
         warnings.simplefilter("ignore", ResourceWarning)
         if config()['browser'] == 'chrome':
             options = webdriver.ChromeOptions()
